@@ -17,3 +17,6 @@ lfg_platforms.json
 lfg_users.json
 wandering.json
 \.vscode/
+*.iml
+.idea/
+/vendor/
