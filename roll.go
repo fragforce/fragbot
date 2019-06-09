@@ -28,7 +28,7 @@ func rollTheDiceInit() {
 func getSeed() (int64, error) {
 	c := 8
 	b := make([]byte, c)
-	_, err := rand.Read(b)
+	_, err := crand.Read(b)
 	if err != nil {
 		return 0, err
 	}
@@ -43,12 +43,6 @@ func rollTheDice(message string) (response string, sendToDM bool) {
 
 	// if a roll is to be run multiple times
 	multiRoll := 1
-
-	seed, err := getSeed()
-	if err != nil {
-		log.Print("Error generating seed")
-	}
-	rand.Seed(seed)
 
 	log.Printf("roll the dice")
 	// Example !roll 1d6+2
@@ -82,6 +76,7 @@ func rollTheDice(message string) (response string, sendToDM bool) {
 	}
 
 	if !hasElem(chn.RTD.Sides, dieValue) {
+		log.Printf("The amount of sides %d, is not supported", dieValue)
 		response = fmt.Sprintf("Only dice with %s sides are supported.", arrayToString(chn.RTD.Sides))
 		return
 	}
@@ -113,10 +108,30 @@ func rollTheDice(message string) (response string, sendToDM bool) {
 }
 
 func roll(rollCount int, dieValue int) (rolls []int) {
+	seed, err := getSeed()
+	if err != nil {
+		log.Print("Error generating seed")
+	}
+	rand.Seed(seed)
+
 	for i := 0; i < rollCount; i++ {
 		rolls = append(rolls, rand.Intn(dieValue)+1)
 	}
 
+	log.Printf("%d", rolls)
+	return
+}
+
+func flipCoin() (response string, sendToDM bool) {
+	side := total(roll(1, 2))
+
+	log.Printf("side = %d", side)
+
+	if side == 1 {
+		response = "I have flipped the coin getting a heads"
+	} else if side == 2 {
+		response = "I have flipped the coin getting a tails"
+	}
 	return
 }
 
@@ -131,7 +146,7 @@ func rollDie(addSub string, dieValue, rollCount, proficiency int) (response stri
 
 	rollTotal := total(allRolls)
 
-	log.Printf("%d", rollTotal)
+	log.Printf("roll total = %d", rollTotal)
 
 	if addSub == "" {
 		log.Printf("No profeciency was added to the roll")
@@ -159,6 +174,7 @@ func total(dice []int) (total int) {
 		total = total + die
 	}
 
+	log.Printf("total = %d", total)
 	return
 }
 
