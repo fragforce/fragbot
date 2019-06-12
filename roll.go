@@ -18,8 +18,27 @@ import (
 // /_/   \____/_/_/      \__/_/ /_/\___/      \__,_/_/\___/\___/
 
 type rtdInfo struct {
-	ChannelID string `json:"channel_id,omitempty"`
-	Sides     []int  `json:"sides,omitempty"`
+	ChannelID string        `json:"channel_id,omitempty"`
+	Sides     []int         `json:"sides,omitempty"`
+	Wandering rollWandering `json:"wandering,omitempty"`
+}
+
+type rollOutcome struct {
+	Exact int              `json:"exact,omitempty"`
+	Range rollOutcomeRange `json:"range,omitempty"`
+}
+
+type rollOutcomeRange struct {
+	Min int `json:"min"`
+	Max int `json:"max"`
+}
+
+type rollWandering struct {
+	Damage wanderingSettings `json:"damage,omitempty"`
+}
+
+type wanderingSettings struct {
+	Enabled bool `json:"enabled,omitempty"`
 }
 
 func rollTheDiceInit() {
@@ -87,7 +106,7 @@ func rollTheDice(message string) (response string, sendToDM bool) {
 	}
 
 	if dieInfo[5] != "" {
-		log.Printf("rolling %s sets", dieInfo[5])
+		// log.Printf("rolling %s sets", dieInfo[5])
 		multiRoll, err = strconv.Atoi(dieInfo[5])
 		if err != nil {
 			log.Printf("There was an error converting the number of rolls")
@@ -118,14 +137,14 @@ func roll(rollCount int, dieValue int) (rolls []int) {
 		rolls = append(rolls, rand.Intn(dieValue)+1)
 	}
 
-	log.Printf("%d", rolls)
+	// log.Printf("%d", rolls)
 	return
 }
 
 func flipCoin() (response string, sendToDM bool) {
 	side := total(roll(1, 2))
 
-	log.Printf("side = %d", side)
+	// log.Printf("side = %d", side)
 
 	if side == 1 {
 		response = "I have flipped the coin getting a heads"
@@ -140,16 +159,16 @@ func rollDie(addSub string, dieValue, rollCount, proficiency int) (response stri
 	var prettyRolls string
 	var profString string
 
-	log.Printf("rolling a %d sided die %d times", dieValue, rollCount)
+	// log.Printf("rolling a %d sided die %d times", dieValue, rollCount)
 	allRolls := roll(rollCount, dieValue)
 	prettyRolls = arrayToString(allRolls)
 
 	rollTotal := total(allRolls)
 
-	log.Printf("roll total = %d", rollTotal)
+	// log.Printf("roll total = %d", rollTotal)
 
 	if addSub == "" {
-		log.Printf("No profeciency was added to the roll")
+		// log.Printf("No profeciency was added to the roll")
 	} else {
 		if addSub == "+" {
 			log.Printf("Adding %d to the roll", proficiency)
@@ -174,7 +193,15 @@ func total(dice []int) (total int) {
 		total = total + die
 	}
 
-	log.Printf("total = %d", total)
+	// log.Printf("total = %d", total)
+	return
+}
+
+func between(min, max, num int) (isBetween bool) {
+	if max >= num && num >= min {
+		isBetween = true
+	}
+
 	return
 }
 

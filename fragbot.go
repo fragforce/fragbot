@@ -61,15 +61,22 @@ func init() {
 		log.Fatalf("there was an issue reading config file\n")
 	}
 
-	log.Printf("all configs loaded")
-
 	if chn.LFG.ChannelID != "" {
 		lookingForGroupInit()
+		log.Printf("initialized lfg")
 	}
 
 	if chn.RTD.ChannelID != "" {
 		rollTheDiceInit()
+		log.Printf("initialized rtd")
 	}
+
+	if chn.RTD.Wandering.Damage.Enabled {
+		initWanderingDmg()
+		log.Printf("initialized wandering dmg")
+	}
+
+	log.Printf("all configs loaded")
 }
 
 func main() {
@@ -186,6 +193,19 @@ func handleDiscordMessages(s *discordgo.Session, message *discordgo.MessageCreat
 		if strings.HasPrefix(messageContent, chn.Prefix+"roll") && message.ChannelID == chn.RTD.ChannelID {
 			if strings.TrimPrefix(messageContent, chn.Prefix+"roll") == "" || !strings.HasPrefix(messageContent, chn.Prefix+"roll ") {
 				sendDiscordMessage(s, channel.ID, "How to use Roll the Dice\n`!roll (dice)d(sides)[+/-][proficiency]`\nI.E. `!roll 1d20+3`")
+				return
+			}
+			if strings.TrimPrefix(messageContent, chn.Prefix+"roll ") == "wandering dmg" {
+				var reroll = true
+				for reroll {
+					response, sendToDM, reroll = rollWanderingDamage()
+					if reroll {
+						log.Printf("sending message and rerolling")
+						sendDiscordMessage(s, channel.ID, response)
+						response, sendToDM, reroll = rollWanderingDamage()
+					}
+				}
+				sendDiscordMessage(s, channel.ID, response)
 				return
 			}
 			response, sendToDM = rollTheDice(strings.TrimPrefix(messageContent, chn.Prefix+"roll "))
