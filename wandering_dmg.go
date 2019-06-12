@@ -40,7 +40,7 @@ func initWanderingDmg() {
 	var err error
 
 	log.Printf("loading wandering damage info")
-	err = loadInfo("wandering.json", &wanderingInfo)
+	err = loadInfo("wandering_dmg.json", &wanderingInfo)
 	if err != nil {
 		log.Fatalf("there was an issue reading the wandering file\n")
 	}
@@ -73,6 +73,10 @@ func rollWanderingDamage() (response string, sendToDM bool, reroll bool) {
 				log.Printf("rolling for limb loss")
 				response = response + rollWanderingDMGLimbLoss()
 			} else if value.Random {
+				for reroll {
+					log.Printf("this is getting logged")
+				}
+
 				log.Printf("rolling on the random damage table")
 				rollResponse, reroll := rollWangeringDmgRandom()
 				response = response + rollResponse
