@@ -124,6 +124,12 @@
                     "exact": 20
                 },
                 "result":"The All-or-Nothing Coin: A coin that, while in your possession is worth 1gp. But when out of your possession is worth nothing."
+            },
+            {
+                "outcome": {
+                    "exact": 21
+                },
+                "result":"Sword in stone : The Fabled holy weapon!!! It's here! You truly are embued with a sense of awe! You reach for the sacred weapon... only to find that it's just a sword, made of Stone \"Sword in Stone\"...  Roll 20 for perception check -19 modifier"
             }
         ]
     }
