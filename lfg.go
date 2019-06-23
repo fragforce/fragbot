@@ -18,6 +18,11 @@ import (
 // /_/\____/\____/_/|_/_/_/ /_/\__, /     /_/  \____/_/         \__, /_/   \____/\__,_/ .___/
 //                            /____/                           /____/                /_/
 
+var (
+	usersFile    = "lfg/lfg_users.json"
+	platformFile = "lfg/lfg_platforms.json"
+)
+
 type lfgInfo struct {
 	ChannelID string   `json:"channel_id,omitempty"`
 	Platforms []string `json:"platforms,omitempty"`
@@ -53,7 +58,7 @@ func lookingForGroupInit() {
 	var err error
 
 	log.Printf("loading users")
-	err = loadInfo("lfg_users.json", &users)
+	err = loadInfo(usersFile, &users)
 	if err != nil {
 		log.Fatalf("there was an issue reading the users file\n")
 	}
@@ -91,8 +96,8 @@ func lookingForGroup(message string, authorID string, authorName string) (respon
 		}
 		lookingForGroupRemovePlatformPlayer(authorName)
 
-		saveInfo("lfg_platforms.json", platfms) // Need to capture errors
-		saveInfo("lfg_users.json", users)       // Need to capture errors
+		saveInfo(platformFile, platfms) // Need to capture errors
+		saveInfo(usersFile, users)      // Need to capture errors
 		return "you have left the lfg queue", true
 	}
 
@@ -258,8 +263,8 @@ func lookingForGroup(message string, authorID string, authorName string) (respon
 		}
 	}
 
-	saveInfo("lfg_platforms.json", platfms) // Need to capture errors
-	saveInfo("lfg_users.json", users)       // Need to capture errors
+	saveInfo(platformFile, platfms) // Need to capture errors
+	saveInfo(usersFile, users)      // Need to capture errors
 
 	return response, false
 }
@@ -287,8 +292,8 @@ func lookingForGroupTickJob() (response string, discordUserID string, send bool)
 			send = true
 		}
 
-		saveInfo("lfg_platforms.json", platfms) // Need to capture errors
-		saveInfo("lfg_users.json", users)       // Need to capture errors
+		saveInfo(platformFile, platfms) // Need to capture errors
+		saveInfo(usersFile, users)      // Need to capture errors
 	}
 
 	return
@@ -320,7 +325,7 @@ func lookingForGroupRemovePlatformPlayer(userName string) {
 }
 
 func loadPlatforms() error {
-	err := loadInfo("lfg_platforms.json", &platfms)
+	err := loadInfo(platformFile, &platfms)
 	if err != nil {
 		return fmt.Errorf("there was an issue reading the platform file %s", err)
 	}
@@ -341,7 +346,7 @@ func loadPlatforms() error {
 		}
 	}
 
-	err = saveInfo("lfg_platforms.json", platfms)
+	err = saveInfo(platformFile, platfms)
 	if err != nil {
 		return fmt.Errorf("there was an issue updating the config %s", err)
 	}
