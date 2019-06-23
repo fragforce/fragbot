@@ -60,7 +60,7 @@ func getSeed() (int64, error) {
 
 func rollHandler(messageContent string) (response string, discordEmbed discordgo.MessageEmbed, sendToDM bool) {
 	if strings.TrimPrefix(messageContent, chn.Prefix+"roll") == "" || !strings.HasPrefix(messageContent, chn.Prefix+"roll ") {
-		response = "How to use Roll the Dice\n`!roll (dice)d(sides)[+/-][proficiency]`\nI.E. `!roll 1d20+3`"
+		response = "How to use Roll the Dice\n`!roll (dice)d(sides)[+/-][proficiency]`\nI.E. `!roll 1d20+3`\n !roll stats "
 		return
 	}
 
@@ -70,7 +70,10 @@ func rollHandler(messageContent string) (response string, discordEmbed discordgo
 	}
 
 	if strings.TrimPrefix(messageContent, chn.Prefix+"roll ") == "stats" {
-		response, sendToDM = rollStats()
+		if strings.TrimPrefix(messageContent, chn.Prefix+"roll stats") == "" {
+			response = ""
+		}
+		response, sendToDM = rollStats(strings.TrimPrefix(messageContent, chn.Prefix+"roll stats "))
 		return
 	}
 
@@ -212,26 +215,35 @@ func rollDie(addSub string, dieValue, rollCount, proficiency int) (response stri
 	return
 }
 
-func rollStats() (response string, sendToDM bool) {
-	allRolls := []int{}
-	rollTotal := 0
+func rollStats(message string) (response string, sendToDM bool) {
+	var allRolls []int
+	var rerollOne bool
+
+	if message == "" {
+		rerollOne = true
+	}
 
 	for len(allRolls) < 6 {
-		rollTotal = 0
-		for rollTotal <= 4 {
-			rollTotal = total(roll(4, 6))
+		allRolled := []int{}
+		for len(allRolled) < 4 {
+			rolled := total(roll(1, 6))
+			for rolled <= 1 && rerollOne {
+				log.Printf("rerolling a 1 that was rolled")
+				rolled = total(roll(1, 6))
+			}
+			allRolled = append(allRolled, rolled)
 		}
 
-		allRolls = append(allRolls, rollTotal)
+		sort.Ints(allRolled)
+
+		allRolled = allRolled[1:]
+
+		allRolls = append(allRolls, total(allRolled))
 	}
 
 	log.Printf("all rolls '%d'", allRolls)
 
-	sort.Ints(allRolls)
-
-	cleanRolls := allRolls[3:]
-
-	response = fmt.Sprintf("I have rolled the dice and return the following stat rolls for you. %d", cleanRolls)
+	response = fmt.Sprintf("I have rolled the dice and return the following stat rolls for you. %d", allRolls)
 
 	return
 }
