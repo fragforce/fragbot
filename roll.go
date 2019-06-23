@@ -152,7 +152,7 @@ func roll(rollCount int, dieValue int) (rolls []int) {
 	rand.Seed(seed)
 
 	for i := 0; i < rollCount; i++ {
-		rolls = append(rolls, rand.Intn(dieValue)+1)
+		rolls = append(rolls, rand.Intn(dieValue-1)+1)
 	}
 
 	// log.Printf("%d", rolls)
