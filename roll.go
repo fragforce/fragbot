@@ -8,6 +8,7 @@ import (
 	"math/rand"
 	"reflect"
 	"regexp"
+	"sort"
 	"strconv"
 	"strings"
 
@@ -65,6 +66,11 @@ func rollHandler(messageContent string) (response string, discordEmbed discordgo
 
 	if strings.TrimPrefix(messageContent, chn.Prefix+"roll ") == "wandering dmg" {
 		response, discordEmbed, sendToDM = rollWanderingDamage()
+		return
+	}
+
+	if strings.TrimPrefix(messageContent, chn.Prefix+"roll ") == "stats" {
+		response, sendToDM = rollStats()
 		return
 	}
 
@@ -202,6 +208,30 @@ func rollDie(addSub string, dieValue, rollCount, proficiency int) (response stri
 	}
 
 	response = fmt.Sprintf("I have rolled %s %sfor a total of %d \n", prettyRolls, profString, rollTotal)
+
+	return
+}
+
+func rollStats() (response string, sendToDM bool) {
+	allRolls := []int{}
+	rollTotal := 0
+
+	for len(allRolls) < 6 {
+		rollTotal = 0
+		for rollTotal <= 4 {
+			rollTotal = total(roll(4, 6))
+		}
+
+		allRolls = append(allRolls, rollTotal)
+	}
+
+	log.Printf("all rolls '%d'", allRolls)
+
+	sort.Ints(allRolls)
+
+	cleanRolls := allRolls[3:]
+
+	response = fmt.Sprintf("I have rolled the dice and return the following stat rolls for you. %d", cleanRolls)
 
 	return
 }
