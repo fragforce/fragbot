@@ -118,8 +118,8 @@ func lookingForGroup(message string, authorID string, authorName string) (respon
 		codeBlock.Message = append(codeBlock.Message, "platform    game                  players")
 
 		for _, plat := range platfms.Platforms {
-			codeBlock.Message = append(codeBlock.Message, fmt.Sprintf("%s", plat.Name))
 			if len(plat.Games) != 0 {
+				codeBlock.Message = append(codeBlock.Message, fmt.Sprintf("%s", plat.Name))
 			}
 			for _, platGame := range plat.Games {
 				gameTitle := platGame.Title

@@ -20,6 +20,7 @@ var (
 	users    players
 	platfms  platforms
 	shutdown = make(chan string)
+
 	//ServStat is the Service Status channel
 	servStat = make(chan string)
 )
@@ -44,32 +45,40 @@ type discordCodeBlock struct {
 func init() {
 	log.Printf("loading configs from files\n")
 	log.Printf("loading bot config")
-	err := loadInfo("config.json", &bot)
+
+	err := loadInfo("config/config.json", &bot)
 	if err != nil {
 		log.Fatalf("there was an issue reading config file\n")
 	}
 
 	log.Printf("loading channel config")
-	err = loadInfo("channel.json", &chn)
+	err = loadInfo("config/channel.json", &chn)
 	if err != nil {
 		log.Fatalf("there was an issue reading config file\n")
 	}
 
 	log.Printf("loading channel config")
-	err = loadInfo("channel.json", &chn)
+	err = loadInfo("config/channel.json", &chn)
 	if err != nil {
 		log.Fatalf("there was an issue reading config file\n")
 	}
-
-	log.Printf("all configs loaded")
 
 	if chn.LFG.ChannelID != "" {
 		lookingForGroupInit()
+		log.Printf("initialized lfg")
 	}
 
 	if chn.RTD.ChannelID != "" {
 		rollTheDiceInit()
+		log.Printf("initialized rtd")
 	}
+
+	if chn.RTD.Wandering.Damage.Enabled {
+		initWanderingDmg()
+		log.Printf("initialized wandering dmg")
+	}
+
+	log.Printf("all configs loaded")
 }
 
 func main() {
@@ -152,6 +161,8 @@ func startDiscordHandler() {
 
 // discord handlers
 func handleDiscordMessages(s *discordgo.Session, message *discordgo.MessageCreate) {
+	var discordEmbed discordgo.MessageEmbed
+
 	messageContent := strings.ToLower(message.Message.Content)
 	// ignore all bot messages
 	if message.Author.Bot {
@@ -171,7 +182,8 @@ func handleDiscordMessages(s *discordgo.Session, message *discordgo.MessageCreat
 	}
 	if strings.HasPrefix(messageContent, chn.Prefix) {
 		var response string
-		var sendToDM bool
+		var sendDM bool
+		var sendEmbed bool
 
 		// looking a group
 		if strings.HasPrefix(messageContent, chn.Prefix+"lfg") && message.ChannelID == chn.LFG.ChannelID {
@@ -179,27 +191,48 @@ func handleDiscordMessages(s *discordgo.Session, message *discordgo.MessageCreat
 				sendDiscordMessage(s, channel.ID, "How to use Fragfinder v1.0\n`!lfg (Game) (Platform) (Wait Time in minutes (Default is 60 if not set))\nI.E. `!lfg Rocket League PS4 60`")
 				return
 			}
-			response, sendToDM = lookingForGroup(strings.TrimPrefix(messageContent, chn.Prefix+"lfg "), message.Author.ID, message.Author.Username)
+			response, sendDM = lookingForGroup(strings.TrimPrefix(messageContent, chn.Prefix+"lfg "), message.Author.ID, message.Author.Username)
 		}
 
 		// roll the dice
 		if strings.HasPrefix(messageContent, chn.Prefix+"roll") && message.ChannelID == chn.RTD.ChannelID {
-			if strings.TrimPrefix(messageContent, chn.Prefix+"roll") == "" || !strings.HasPrefix(messageContent, chn.Prefix+"roll ") {
-				sendDiscordMessage(s, channel.ID, "How to use Roll the Dice\n`!roll (dice)d(sides)[+/-][proficiency]`\nI.E. `!roll 1d20+3`")
-				return
-			}
-			response, sendToDM = rollTheDice(strings.TrimPrefix(messageContent, chn.Prefix+"roll "))
+			response, discordEmbed, sendDM = rollHandler(messageContent)
 		}
 
 		// flip a coin
 		if strings.HasPrefix(messageContent, chn.Prefix+"flip") && message.ChannelID == chn.RTD.ChannelID {
-			response, sendToDM = flipCoin()
+			response, sendDM = flipCoin()
 		}
 
-		if sendToDM {
+		if strings.HasPrefix(messageContent, chn.Prefix+"embed") && message.ChannelID == chn.RTD.ChannelID {
+			discordEmbed = discordgo.MessageEmbed{
+				Color: 7671924,
+				Author: &discordgo.MessageEmbedAuthor{
+					Name: "Test author name",
+				},
+				Fields: []*discordgo.MessageEmbedField{
+					&discordgo.MessageEmbedField{
+						Name:   "PC",
+						Value:  "game\nplayers",
+						Inline: false,
+					},
+				},
+				Footer: &discordgo.MessageEmbedFooter{
+					Text: "Footer Text",
+				},
+			}
+			sendDiscordEmbed(s, channel.ID, &discordEmbed)
+			return
+		}
+
+		if sendDM {
 			sendDiscordDirectMessage(s, message.Author.ID, response)
 		} else {
-			sendDiscordMessage(s, channel.ID, response)
+			if sendEmbed {
+				sendDiscordEmbed(s, channel.ID, &discordEmbed)
+			} else {
+				sendDiscordMessage(s, channel.ID, response)
+			}
 		}
 	}
 }
@@ -233,7 +266,7 @@ func sendDiscordDirectMessage(s *discordgo.Session, discordUserID string, respon
 	sendDiscordMessage(s, channel.ID, response)
 }
 
-func sendDiscordEmbed(s *discordgo.Session, embed *discordgo.MessageEmbed, channelID string) {
+func sendDiscordEmbed(s *discordgo.Session, channelID string, embed *discordgo.MessageEmbed) {
 	log.Printf("sending embed to %s", channelID)
 	_, err := s.ChannelMessageSendEmbed(channelID, embed)
 	if err != nil {
@@ -244,16 +277,6 @@ func sendDiscordEmbed(s *discordgo.Session, embed *discordgo.MessageEmbed, chann
 
 func newCodeBlock() discordCodeBlock {
 	return discordCodeBlock{"```\n", []string{}, "```\n"}
-}
-
-// helper functions
-func contains(a []string, s string) bool {
-	for _, n := range a {
-		if s == n {
-			return true
-		}
-	}
-	return false
 }
 
 // File management

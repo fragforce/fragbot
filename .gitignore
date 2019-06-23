@@ -15,7 +15,7 @@ channel.json
 config.json
 lfg_platforms.json
 lfg_users.json
-wandering.json
+wandering_dmg.json
 \.vscode/
 *.iml
 .idea/
