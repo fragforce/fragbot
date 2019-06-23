@@ -9,6 +9,9 @@ import (
 	"reflect"
 	"regexp"
 	"strconv"
+	"strings"
+
+	"github.com/bwmarrin/discordgo"
 )
 
 //                ____      __  __                   ___
@@ -52,6 +55,21 @@ func getSeed() (int64, error) {
 		return 0, err
 	}
 	return (int64)(binary.BigEndian.Uint64(b)), nil
+}
+
+func rollHandler(messageContent string) (response string, discordEmbed discordgo.MessageEmbed, sendToDM bool) {
+	if strings.TrimPrefix(messageContent, chn.Prefix+"roll") == "" || !strings.HasPrefix(messageContent, chn.Prefix+"roll ") {
+		response = "How to use Roll the Dice\n`!roll (dice)d(sides)[+/-][proficiency]`\nI.E. `!roll 1d20+3`"
+		return
+	}
+
+	if strings.TrimPrefix(messageContent, chn.Prefix+"roll ") == "wandering dmg" {
+		response, discordEmbed, sendToDM = rollWanderingDamage()
+		return
+	}
+
+	response, sendToDM = rollTheDice(strings.TrimPrefix(messageContent, chn.Prefix+"roll "))
+	return
 }
 
 func rollTheDice(message string) (response string, sendToDM bool) {

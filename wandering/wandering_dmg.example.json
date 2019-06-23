@@ -52,13 +52,13 @@
                 "outcome": {
                     "exact": 7
                 },
-                "result":"The next time your character says something, They eat their words, chokes on them, and dies."
+                "result":"The next time your character says something, They eat their words, choke on them, and dies."
             },
             {
                 "outcome": {
                     "exact": 8
                 },
-                "result":"Something cuts your character's nose off, doing 2-12 points damage and really messes up their charisma. ",
+                "result":"Something cuts your character's nose off, doing &damage& points damage and really messes up their charisma. ",
                 "roll":{
                     "dice": 2,
                     "value": 6
