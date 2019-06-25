@@ -70,10 +70,7 @@ func rollHandler(messageContent string) (response string, discordEmbed discordgo
 	}
 
 	if strings.TrimPrefix(messageContent, chn.Prefix+"roll ") == "stats" {
-		if strings.TrimPrefix(messageContent, chn.Prefix+"roll stats") == "" {
-			response = ""
-		}
-		response, sendToDM = rollStats(strings.TrimPrefix(messageContent, chn.Prefix+"roll stats "))
+		response, sendToDM = rollStats("")
 		return
 	}
 

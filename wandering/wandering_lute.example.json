@@ -7,6 +7,12 @@
         "table":[
             {
                 "outcome": {
+                    "exact": 0
+                },
+                "result":""
+            },
+            {
+                "outcome": {
                     "exact": 1
                 },
                 "result":"Husky Wand: Just a log that can be weilded as a two handed wand"
@@ -33,7 +39,7 @@
                 "outcome": {
                     "exact": 5
                 },
-                "result":"Potion of Site: A beautifully crafted miniature scene of a location, not to be confused with \"sight\""
+                "result":"Potion of Site: A beautifully crafted miniature scene of a location, not to be confused with 'sight'"
             },
             {
                 "outcome": {
@@ -57,13 +63,13 @@
                 "outcome": {
                     "exact": 9
                 },
-                "result":"Potion of Fazing: Wizards from all around want this Potion! Bandits would steal for this Potion! If only it was the Potion of \"Phasing\" and not so disturbing "
+                "result":"Potion of Fazing: Wizards from all around want this Potion! Bandits would steal for this Potion! If only it was the Potion of 'Phasing' and not so disturbing "
             },
             {
                 "outcome": {
                     "exact": 10
                 },
-                "result":"Wand of levitation: Instructions are attached \"Step 1: find water... Step 2:... \""
+                "result":"Wand of levitation: Instructions are attached 'Step 1: find water... Step 2:... '"
             },
             {
                 "outcome": {
@@ -129,7 +135,61 @@
                 "outcome": {
                     "exact": 21
                 },
-                "result":"Sword in stone : The Fabled holy weapon!!! It's here! You truly are embued with a sense of awe! You reach for the sacred weapon... only to find that it's just a sword, made of Stone \"Sword in Stone\"...  Roll 20 for perception check -19 modifier"
+                "result":"Sword in stone : The Fabled holy weapon!!! It's here! You truly are embued with a sense of awe! You reach for the sacred weapon... only to find that it's just a sword, made of Stone 'Sword in Stone'...  Roll 20 for perception check -19 modifier"
+            },
+            {
+                "outcome": {
+                    "exact": 22
+                },
+                "result":"Pocket Ladder: a tiny ladder that fits in a pocket. Extends to 20 feet in length, but is only an inch and a half wide with teensy little rungs."
+            },
+            {
+                "outcome": {
+                    "exact": 23
+                },
+                "result":"The Two O'Clock Bracers: Bracers cast sleep at 1st level on the wearer at 2:00PM every day."
+            },
+            {
+                "outcome": {
+                    "exact": 24
+                },
+                "result":"A Bear Whistle: It summons angry bears. Who are on no ones side."
+            },
+            {
+                "outcome": {
+                    "exact": 25
+                },
+                "result":"Hat of Many Hats: Polymorphs itself into a different style of hat every morning. Wizard, top hat, Stetson, etc. TODO: add generator for this."
+            },
+            {
+                "outcome": {
+                    "exact": 26
+                },
+                "result":"Aligned Mundane Object: TODO: add generator for this."
+            },
+            {
+                "outcome": {
+                    "exact": 27
+                },
+                "result":"Complimentary Crossbow: Compliments the enemy which you strike. I.E. 'What beautiful fangs you have'"
+            },
+            {
+                "outcome": {
+                    "exact": 28
+                },
+                "result":"Bolt of Jealousy : Is extremely jealous of the complimentary crossbow, everything nice always breaks when it strikes its target, only compatible with Complimentary crossbow"
+            },
+            {
+                "outcome": {
+                    "exact": 29
+                },
+                "result":"Singing sword: It's a sword that sings, only when swung however.. and it's horribly out of tune the slower you swing, this includes when holstered and swinging back and forth as you move."
+            },
+            {
+                "outcome": {
+                    "exact": 30
+                },
+                "result":"Aligned Mundane Object: TODO: add generator for this."
             }
         ]
     }
