@@ -18,26 +18,6 @@ type wanderingDamage struct {
 	RandomDamage    wandering `json:"random_damage"`
 }
 
-type wandering struct {
-	Roll  wanderingRoll    `json:"roll"`
-	Table []wanderingTable `json:"table"`
-}
-
-type wanderingRoll struct {
-	Dice  int `json:"dice"`
-	Value int `json:"value"`
-}
-
-type wanderingTable struct {
-	Outcome rollOutcome   `json:"outcome,omitempty"`
-	Result  string        `json:"result"`
-	Roll    wanderingRoll `json:"roll,omitempty"`
-	Limb    bool          `json:"limb,omitempty"`
-	Wander  bool          `json:"wander,omitempty"`
-	Random  bool          `json:"random,omitempty"`
-	Damage  bool          `json:"damage,omitempty"`
-}
-
 func initWanderingDmg() {
 	var err error
 

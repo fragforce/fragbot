@@ -8,6 +8,7 @@ import (
 	"math/rand"
 	"reflect"
 	"regexp"
+	"sort"
 	"strconv"
 	"strings"
 
@@ -59,12 +60,17 @@ func getSeed() (int64, error) {
 
 func rollHandler(messageContent string) (response string, discordEmbed discordgo.MessageEmbed, sendToDM bool) {
 	if strings.TrimPrefix(messageContent, chn.Prefix+"roll") == "" || !strings.HasPrefix(messageContent, chn.Prefix+"roll ") {
-		response = "How to use Roll the Dice\n`!roll (dice)d(sides)[+/-][proficiency]`\nI.E. `!roll 1d20+3`"
+		response = "How to use Roll the Dice\n`!roll (dice)d(sides)[+/-][proficiency]x[multiple times]` I.E. `!roll 1d20+3x5`\n `!roll stats` to roll a base set of stats."
 		return
 	}
 
 	if strings.TrimPrefix(messageContent, chn.Prefix+"roll ") == "wandering dmg" {
 		response, discordEmbed, sendToDM = rollWanderingDamage()
+		return
+	}
+
+	if strings.TrimPrefix(messageContent, chn.Prefix+"roll ") == "stats" {
+		response, sendToDM = rollStats("")
 		return
 	}
 
@@ -152,7 +158,7 @@ func roll(rollCount int, dieValue int) (rolls []int) {
 	rand.Seed(seed)
 
 	for i := 0; i < rollCount; i++ {
-		rolls = append(rolls, rand.Intn(dieValue-1)+1)
+		rolls = append(rolls, rand.Intn(dieValue)+1)
 	}
 
 	// log.Printf("%d", rolls)
@@ -202,6 +208,48 @@ func rollDie(addSub string, dieValue, rollCount, proficiency int) (response stri
 	}
 
 	response = fmt.Sprintf("I have rolled %s %sfor a total of %d \n", prettyRolls, profString, rollTotal)
+
+	return
+}
+
+func rollStats(message string) (response string, sendToDM bool) {
+	log.Printf("rolling stats for the user")
+
+	var allRolls []int
+	var rerollOne bool
+
+	if message == "" {
+		rerollOne = true
+	}
+
+	for len(allRolls) < 6 {
+		// log.Printf("roll set %d", len(allRolls)+1)
+		allRolled := []int{}
+		for len(allRolled) < 4 {
+			rolled := total(roll(1, 6))
+			for rolled <= 1 && rerollOne {
+				// log.Printf("rerolling a 1 that was rolled")
+				rolled = total(roll(1, 6))
+			}
+			allRolled = append(allRolled, rolled)
+		}
+
+		// log.Printf("%d", allRolled)
+
+		sort.Ints(allRolled)
+
+		// log.Printf("%d", allRolled)
+
+		allRolled = allRolled[1:]
+
+		// log.Printf("%d", allRolled)
+
+		allRolls = append(allRolls, total(allRolled))
+	}
+
+	log.Printf("all roll set totals '%d'", allRolls)
+
+	response = fmt.Sprintf("I have rolled the dice and return the following stat rolls for you. %d", allRolls)
 
 	return
 }
