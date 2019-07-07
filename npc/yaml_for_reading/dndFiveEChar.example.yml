@@ -1,0 +1,48 @@
+characters:
+- id: 0 ## an example character that is fully flushed out.
+  player_info:
+    discord_id: '187947264825102400'
+    player_name: parkervcp
+  hit_points:
+    max: 15
+    current: 10
+    temp: 0
+  stats:
+    strength: 5
+    dexterity: 5
+    constitution: 5
+    intelligence: 5
+    wisdom: 5
+    charisma: 5
+  armor_class: 10
+  initiative: 3
+  speed:
+    feet: 30
+  skills:
+    intimidation: true
+  passive_wisdom: 0
+  details:
+    name:
+      title: Sir
+      first: Nikolai
+      middle: Brunswik
+      last: Robanov
+      honorific: The Quick Footed
+    experience_points: 10
+    race_id: 4
+    alignment:
+      gve: 0 ## Good V Evil 1=good, 0=neutral, -1=evil
+      lvc: 1 ## Lawful V Chaos 1=lawful, 0=neutral, -1=chaotic
+    age: 57
+    height: ## accepts both feet/inch and centimeter
+      feet: 4
+      inches: 8
+    weight: ## accepts both pounds/ounces and grams
+      pounds: 185
+      ounces: 14
+    hair_color: Gray
+    eye_color: Gray
+    skin_color: Light Tan
+    language_ids:
+      - 1
+      - 3

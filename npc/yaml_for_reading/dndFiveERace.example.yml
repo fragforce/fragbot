@@ -1,0 +1,43 @@
+races:
+- id: 0 ## an example race
+  race_name: example
+  adult_age: 22
+  alignment:
+    gve: 0 ## Good V Evil 1=good, 0=neutral, -1=evil
+    lvc: 0 ## Lawful V Chaos 1=lawful, 0=neutral, -1=chaotic
+  size_id: 5
+  speed: 30
+  height:
+    min:
+      feet: 5
+    max:
+      feet: 6
+      inches: 8
+  weight:
+    min: 
+      pounds: 130
+    max: 
+      pounds: 280
+  language_ids: ## this is a table of values
+    - 1
+    - 2
+- id: 4
+  race_name: dwarf
+  adult_age: 22
+  alignment:
+    gve: 1 ## Good V Evil 1=good, 0=neutral, -1=evil
+    lvc: -1 ## Lawful V Chaos 1=lawful, 0=neutral, -1=chaotic
+  size_id: 5
+  height:
+    min:
+      feet: 4
+    max:
+      feet: 5
+  weight:
+    min: 
+      pounds: 130
+    max: 
+      pounds: 200
+  language_ids: ## this is a table of values
+    - 1
+    - 3

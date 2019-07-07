@@ -1,0 +1,31 @@
+sizes:
+- id: 4
+  size_name: small
+  ac_modifier: 1
+  special_modifier: -4
+  hide_modifier: 4
+  height:
+    min:
+      feet: 3
+    max:
+      feet: 4
+  weight:
+    min:
+      pounds: 8
+    max:
+      pounds: 60
+- id: 5
+  size_name: Medium
+  ac_modifier: 0
+  special_modifier: 0
+  hide_modifier: 0
+  height:
+    min:
+      feet: 4
+    max:
+      feet: 8
+  weight:
+    min:
+      pounds: 60
+    max:
+      pounds: 500

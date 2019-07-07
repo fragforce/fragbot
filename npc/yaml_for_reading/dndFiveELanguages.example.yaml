@@ -1,0 +1,7 @@
+languages:
+- id: 1
+  lang_name: common
+- id: 2
+  lang_name: one of players choice.
+- id: 3
+  lang_name: dwarvish

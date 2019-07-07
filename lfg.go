@@ -51,7 +51,7 @@ type playerInfo struct {
 	Game      string `json:"game,omitempty"`
 	Name      string `json:"player_name"`
 	Platform  string `json:"platform,omitempty"`
-	Until     int64  `json:"look_until"`
+	Until     int64  `json:"look_until,omitempty"`
 }
 
 func lookingForGroupInit() {

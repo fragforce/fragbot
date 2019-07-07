@@ -1,0 +1,51 @@
+{
+    "characters": [
+        {
+            "id":"1",
+            "player_info":{
+                "discord_id":"187947572160102400",
+                "player_name":"Claire Anada"
+            },
+            "details":{
+                "name":{
+                    "first":"Greg",
+                    "middle":"The",
+                    "last":"Goblin"
+                },
+                "alignment":{
+                    "gve": 1,
+                    "lvc": -1
+                },
+                "age": 35,
+                "height": {
+                    "feet": 4,
+                    "inches": 8
+                },
+                "weight":{
+                    "pounds": 43,
+                    "ounces": 14
+                },
+                "hair_color":"Gray",
+                "eye_color":"Gray",
+                "skin_color":"Green"
+            },
+            "armor_class": 10,
+            "initiative": 3,
+            "speed": 45,
+            "hit_points":{
+                "max": 15,
+                "current": 10,
+                "temp": 0
+            },
+            "experience_points": 10,
+            "stats":{
+                "strength": 5,
+                "dexterity": 5,
+                "constitution": 5,
+                "intelligence": 5,
+                "wisdom": 5,
+                "charisma": 5
+            }
+        }
+    ]
+}
