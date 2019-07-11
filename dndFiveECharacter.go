@@ -4,35 +4,22 @@ type dndFiveECharacterInfo struct {
 	ID      int                        `json:"id"`
 	Player  pcPlayerInfo               `json:"player_info"`
 	Stats   dndFiveECharacterStats     `json:"stats"`
-	EXP     int                        `json:"experience_points,omitempty"`
-	HP      dndFiveECharacterHitPoints `json:"hit_points"`
-	Armor   int                        `json:"armor_class"`
-	Init    int                        `json:"initiative"`
-	Speed   dndFiveESpeed              `json:"speed"`
-	Skills  dndFiveECharacterSkills    `json:"skills"`
-	PassWis int                        `json:"passive_wisdom"`
+	Purse   dndFiveEPurse              `json:"purse,omitempty"`
+	Equip   dndFiveECharacterEquipment `json:"equipment"`
 	Details dndFiveECharacterDetails   `json:"details"`
 }
 
-type dndFiveECharacterDetails struct {
-	Name      dndFiveECharacterName `json:"name"`
-	RaceID    int                   `json:"race_id"`
-	Alignment dndFiveEAlignment     `json:"alignment"`
-	Age       int                   `json:"age,omitmempty"`
-	Height    dndFiveEHeight        `json:"height"`
-	Weight    dndFiveEWeight        `json:"weignt"`
-	HairColor string                `json:"hair_color"`
-	EyeColor  string                `json:"eye_color"`
-	SkinColor string                `json:"skin_color"`
-	LangIDs   []int                 `json:"language_ids"`
-}
-
-type dndFiveECharacterName struct {
-	Honorific  string `json:"honorific,omitempty"`
-	Title      string `json:"title,omitempty"`
-	FirstName  string `json:"first,omitempty"`
-	MiddleName string `json:"middle,omitempty"`
-	LastName   string `json:"last,omitempty"`
+type dndFiveECharacterStats struct {
+	EXP       int                        `json:"experience_points,omitempty"`
+	HP        dndFiveECharacterHitPoints `json:"hit_points"`
+	Ability   dndFiveEStatAbilities      `json:"abilities"`
+	Armor     int                        `json:"armor_class"`
+	Init      int                        `json:"initiative"`
+	Speed     dndFiveESpeed              `json:"speed"`
+	InspPoint int                        `json:"inspiration_points,omitmempty"`
+	ProfBonus int                        `json:"proficiency_bonus,omitmempty"`
+	PassWis   int                        `json:"passive_wisdom,omitmempty"`
+	Skills    dndFiveECharacterSkills    `json:"skills"`
 }
 
 type dndFiveECharacterHitPoints struct {
@@ -41,13 +28,18 @@ type dndFiveECharacterHitPoints struct {
 	Temp    int `json:"temp,omitempty"`
 }
 
-type dndFiveECharacterStats struct {
-	Str int `json:"strength,omitempty"`
-	Dex int `json:"dexterity,omitempty"`
-	Con int `json:"constitution,omitempty"`
-	Int int `json:"intelligence,omitempty"`
-	Wis int `json:"wisdom,omitempty"`
-	Cha int `json:"charisma,omitempty"`
+type dndFiveEStatAbilities struct {
+	Str dndFiveEStatAbility `json:"strength,omitempty"`
+	Dex dndFiveEStatAbility `json:"dexterity,omitempty"`
+	Con dndFiveEStatAbility `json:"constitution,omitempty"`
+	Int dndFiveEStatAbility `json:"intelligence,omitempty"`
+	Wis dndFiveEStatAbility `json:"wisdom,omitempty"`
+	Cha dndFiveEStatAbility `json:"charisma,omitempty"`
+}
+
+type dndFiveEStatAbility struct {
+	AblScore   int  `json:"score"`
+	Proficient bool `json:"proficient,omitempty"`
 }
 
 type dndFiveECharacterSkills struct {
@@ -69,6 +61,59 @@ type dndFiveECharacterSkills struct {
 	Sleight       bool `json:"sleight_of_hand,omitempty"`
 	Stealth       bool `json:"stealth,omitempty"`
 	Survival      bool `json:"survival,omitempty"`
+
+	Other []dndFiveECharacterOtherSkills `json:"other,omitempty"`
+}
+
+type dndFiveECharacterOtherSkills struct {
+	ID         int    `json:"id"`
+	SkillName  string `json:"skill_name,omitempty"`
+	Descrption string `json:"description,omitempty"`
+	Base       string `json:"base_stat"`
+	Trained    bool   `json:"trained,omitempty"`
+}
+
+// TODO: add json structs to these
+type dndFiveECharacterEquipment struct {
+	Name        string
+	Quantity    int
+	Description string
+	Heavy       bool
+	Light       bool
+	Loading     bool
+	Ranged      bool
+	Reach       bool
+	Special     bool
+	Thrown      bool
+	Versatile   bool
+	Improvised  bool
+	Silvered    bool
+	Enchanted   bool
+}
+
+type dndFiveECharacterDetails struct {
+	Name      dndFiveECharacterName `json:"name"`
+	Alignment dndFiveEAlignment     `json:"alignment"`
+	RaceID    int                   `json:"race_id"`
+	Age       int                   `json:"age,omitmempty"`
+	Height    dndFiveEHeight        `json:"height"`
+	Weight    dndFiveEWeight        `json:"weignt"`
+	HairColor string                `json:"hair_color"`
+	EyeColor  string                `json:"eye_color"`
+	SkinColor string                `json:"skin_color"`
+	LangIDs   []int                 `json:"language_ids"`
+	Backstory []string              `json:"backstory,omitmempty"`
+	Ideals    []string              `json:"ideals,omitmempty"`
+	Bonds     []string              `json:"bonds,omitmempty"`
+	Flaws     []string              `json:"flaws,omitmempty"`
+}
+
+type dndFiveECharacterName struct {
+	Honorific  string `json:"honorific,omitempty"`
+	Title      string `json:"title,omitempty"`
+	FirstName  string `json:"first,omitempty"`
+	MiddleName string `json:"middle,omitempty"`
+	LastName   string `json:"last,omitempty"`
 }
 
 type dndFiveECharacterClasses struct {
@@ -78,9 +123,6 @@ type dndFiveECharacterClasses struct {
 type dndFiveECharacterClass struct {
 	ClassID   int    `json:"id"`
 	ClaccName string `json:"class_name"`
-}
-
-type dndFiveECharacterEquipment struct {
 }
 
 type dndFiveERaces struct {
@@ -156,4 +198,11 @@ type dndFiveELanguage struct {
 type dndFiveESpeed struct {
 	Feet int `json:"feet,omitempty"`
 	CM   int `json:"centimeters,omitempty"`
+}
+
+type dndFiveEPurse struct {
+	Plat   int `json:"platinum,omitmempty"`
+	Gold   int `json:"gold,omitmempty"`
+	Silver int `json:"silver,omitmempty"`
+	Copper int `json:"copper,omitmempty"`
 }
