@@ -143,23 +143,35 @@ func lookingForGroup(message string, authorID string, authorName string) (respon
 		return response, false
 	}
 
-	validID, err := regexp.Compile(`([a-zA-Z]+\d?|[a-zA-Z]+(?:[[:punct:]])+(?:\s?)|[a-zA-Z]+(?:\s?))+(?:\s?)(\d+|$)`)
+	var platStr string
+	for pfi := range platfms.Platforms {
+		platStr = platStr + platfms.Platforms[pfi].Name
+		if pfi < len(platfms.Platforms)-1 {
+			platStr = platStr + "|"
+		}
+	}
+
+	validID, err := regexp.Compile(fmt.Sprintf("^(.*?) (%s) (\\d+)$", platStr))
 	if err != nil {
 		log.Printf("There was an error compiling the regex for the lfg command")
 		return
 	}
 
+	log.Printf("%s", message)
+
 	lfgQuery := validID.FindStringSubmatch(message)
 
-	if lfgQuery[2] == "" {
-		game = strings.TrimSuffix(lfgQuery[0], fmt.Sprintf(" %s", lfgQuery[1]))
-		platform = lfgQuery[1]
+	log.Printf("%s", lfgQuery)
+
+	if lfgQuery[3] == "" {
+		game = strings.TrimSuffix(lfgQuery[1], fmt.Sprintf(" %s", lfgQuery[1]))
+		platform = lfgQuery[2]
 		timeInt = 60
 	} else {
 		game = strings.TrimSuffix(lfgQuery[0], fmt.Sprintf(" %s %s", lfgQuery[1], lfgQuery[2]))
-		platform = lfgQuery[1]
-		log.Printf("setting timeInt to %s", lfgQuery[2])
-		timeInt, err = strconv.Atoi(lfgQuery[2])
+		platform = lfgQuery[2]
+		log.Printf("setting timeInt to %s", lfgQuery[3])
+		timeInt, err = strconv.Atoi(lfgQuery[3])
 		if err != nil {
 			return fmt.Sprintf("bad format on the time to wait"), false
 		}
@@ -266,7 +278,11 @@ func lookingForGroup(message string, authorID string, authorName string) (respon
 	saveInfo(platformFile, platfms) // Need to capture errors
 	saveInfo(usersFile, users)      // Need to capture errors
 
-	return response, false
+	response = fmt.Sprintf("You have been added to the lfg list playing %s on %s for %s minutes", lfgQuery[1], lfgQuery[2], lfgQuery[3])
+
+	log.Printf("%s", response)
+
+	return response, true
 }
 
 func lookingForGroupTickJob() (response string, discordUserID string, send bool) {
