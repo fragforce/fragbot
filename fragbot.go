@@ -46,19 +46,19 @@ func init() {
 	log.Printf("loading configs from files\n")
 	log.Printf("loading bot config")
 
-	err := loadInfo("config/config.json", &bot)
+	err := loadInfo("configs/config.json", &bot)
 	if err != nil {
 		log.Fatalf("there was an issue reading config file\n")
 	}
 
 	log.Printf("loading channel config")
-	err = loadInfo("config/channel.json", &chn)
+	err = loadInfo("configs/channel.json", &chn)
 	if err != nil {
 		log.Fatalf("there was an issue reading config file\n")
 	}
 
 	log.Printf("loading channel config")
-	err = loadInfo("config/channel.json", &chn)
+	err = loadInfo("configs/channel.json", &chn)
 	if err != nil {
 		log.Fatalf("there was an issue reading config file\n")
 	}
