@@ -161,20 +161,22 @@ func lookingForGroup(message string, authorID string, authorName string) (respon
 
 	lfgQuery := validID.FindStringSubmatch(message)
 
-	log.Printf("%s", lfgQuery)
+	log.Printf("%s", lfgQuery[1])
 
 	if lfgQuery[3] == "" {
-		game = strings.TrimSuffix(lfgQuery[1], fmt.Sprintf(" %s", lfgQuery[1]))
+		game = lfgQuery[1]
 		platform = lfgQuery[2]
 		timeInt = 60
+		fmt.Printf("game: %s plat: %s time: %d\n", game, platform, timeInt)
 	} else {
-		game = strings.TrimSuffix(lfgQuery[0], fmt.Sprintf(" %s %s", lfgQuery[1], lfgQuery[2]))
+		game = lfgQuery[1]
 		platform = lfgQuery[2]
 		log.Printf("setting timeInt to %s", lfgQuery[3])
 		timeInt, err = strconv.Atoi(lfgQuery[3])
 		if err != nil {
 			return fmt.Sprintf("bad format on the time to wait"), false
 		}
+		fmt.Printf("game: %s plat: %s time: %d\n", game, platform, timeInt)
 	}
 
 	if game == "" {
