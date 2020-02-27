@@ -1,5 +1,6 @@
 {
-    "wandering_loot":{
+    "data":[{
+        "type":"wandering_loot",
         "roll":{
             "dice": 1,
             "value": 20
@@ -126,5 +127,5 @@
                 "result":"The All-or-Nothing Coin: A coin that, while in your possession is worth 1gp. But when out of your possession is worth nothing."
             }
         ]
-    }
+    }]    
 }

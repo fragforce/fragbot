@@ -9,23 +9,21 @@ import (
 )
 
 var (
-	wanderingInfo wanderingDamage
+	wanderingDmg wanderingData
 )
-
-type wanderingDamage struct {
-	LimbLoss        wandering `json:"limb_loss"`
-	WanderingDamage wandering `json:"wandering_damage"`
-	RandomDamage    wandering `json:"random_damage"`
-}
 
 func initWanderingDmg() {
 	var err error
 
 	log.Printf("loading wandering damage info")
-	err = loadInfo("wandering/wandering_dmg.json", &wanderingInfo)
+	err = loadInfo("wandering/wandering_dmg.json", &wanderingDmg)
 	if err != nil {
+		log.Printf("%s", err)
 		log.Fatalf("there was an issue reading the wandering file\n")
 	}
+
+	// log.Printf("%v", wanderingDmg)
+
 	log.Printf("wandering damage info loaded")
 }
 
@@ -35,8 +33,21 @@ func rollWanderingDamage() (response string, discordEmbed discordgo.MessageEmbed
 	var damage int
 	var wander = true
 
+	var damageData wandering
+
+	for _, data := range wanderingDmg.Data {
+		if data.Type == "wandering_damage" {
+			damageData = data
+		}
+	}
+
+	if len(damageData.Table) == 0 {
+		log.Print("no loot to hand out")
+		return
+	}
+
 	for wander {
-		rolls := roll(wanderingInfo.WanderingDamage.Roll.Dice, wanderingInfo.WanderingDamage.Roll.Value)
+		rolls := roll(damageData.Roll.Dice, damageData.Roll.Value)
 
 		log.Printf("These are the rolls '%d'", rolls)
 
@@ -50,7 +61,7 @@ func rollWanderingDamage() (response string, discordEmbed discordgo.MessageEmbed
 			return
 		}
 
-		for _, value := range wanderingInfo.WanderingDamage.Table {
+		for _, value := range damageData.Table {
 			if value.Outcome.Exact == outcome || between(value.Outcome.Range.Min, value.Outcome.Range.Max, outcome) {
 				response = response + "\n" + value.Result
 				if value.Limb {
@@ -102,11 +113,23 @@ func rollWanderingDMGLimbLoss() (result string) {
 	log.Printf("rolling for limb loss")
 	var outcome int
 
-	rolls := roll(wanderingInfo.LimbLoss.Roll.Dice, wanderingInfo.LimbLoss.Roll.Value)
+	var limbData wandering
+
+	for _, data := range wanderingDmg.Data {
+		if data.Type == "limb_loss" {
+			limbData = data
+		}
+	}
+
+	if len(limbData.Table) == 0 {
+		return
+	}
+
+	rolls := roll(limbData.Roll.Dice, limbData.Roll.Value)
 
 	outcome = total(rolls)
 
-	for _, value := range wanderingInfo.LimbLoss.Table {
+	for _, value := range limbData.Table {
 		if value.Outcome.Exact == 0 {
 		} else if value.Outcome.Exact == outcome || between(value.Outcome.Range.Min, value.Outcome.Range.Max, outcome) {
 			result = value.Result
@@ -121,14 +144,26 @@ func rollWangeringDmgRandom() (result string) {
 	var outcome int
 	var reroll = true
 
+	var rerollData wandering
+
+	for _, data := range wanderingDmg.Data {
+		if data.Type == "random_damage" {
+			rerollData = data
+		}
+	}
+
+	if len(rerollData.Table) == 0 {
+		return
+	}
+
 	for reroll {
-		rolls := roll(wanderingInfo.RandomDamage.Roll.Dice, wanderingInfo.RandomDamage.Roll.Value)
+		rolls := roll(rerollData.Roll.Dice, rerollData.Roll.Value)
 
 		outcome = total(rolls)
 		log.Printf("outcome is %d", outcome)
 
 		log.Printf("rolling for wandering damage random subtable")
-		for _, value := range wanderingInfo.RandomDamage.Table {
+		for _, value := range rerollData.Table {
 			if value.Outcome.Exact == outcome || between(value.Outcome.Range.Min, value.Outcome.Range.Max, outcome) {
 				result = result + "\n" + value.Result
 				log.Printf("%t", value.Random)

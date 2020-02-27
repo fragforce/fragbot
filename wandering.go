@@ -1,8 +1,17 @@
 package main
 
 type wandering struct {
-	Roll  wanderingRoll    `json:"roll"`
-	Table []wanderingTable `json:"table"`
+	Type  string               `json:"type"`
+	Roll  wanderingRoll        `json:"roll"`
+	Table []wanderingTableItem `json:"table"`
+}
+
+type wanderingSettings struct {
+	Enabled bool `json:"enabled,omitempty"`
+}
+
+type wanderingData struct {
+	Data []wandering `json:"data"`
 }
 
 type wanderingRoll struct {
@@ -10,10 +19,12 @@ type wanderingRoll struct {
 	Value int `json:"value"`
 }
 
-type wanderingTable struct {
+type wanderingTableItem struct {
+	Item string `json:"item,omitempty"`
 	// Outcome is the value for the items in the list.
 	Outcome rollOutcome `json:"outcome,omitempty"`
-	Result  string      `json:"result"`
+	// A string response for describing what happened or what was received
+	Result string `json:"result"`
 	// what to roll when calculateing wandering items.
 	Roll wanderingRoll `json:"roll,omitempty"`
 	// these are effects that are applied in the roll process
