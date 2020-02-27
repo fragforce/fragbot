@@ -4,6 +4,7 @@
 *.dll
 *.so
 *.dylib
+fragbot
 
 # Test binary, build with `go test -c`
 *.test
