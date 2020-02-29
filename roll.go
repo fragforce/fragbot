@@ -39,10 +39,8 @@ type rollOutcomeRange struct {
 
 type rollWandering struct {
 	Damage wanderingSettings `json:"damage,omitempty"`
-}
-
-type wanderingSettings struct {
-	Enabled bool `json:"enabled,omitempty"`
+	Loot   wanderingSettings `json:"loot,omitempty"`
+	Lute   wanderingSettings `json:"lute,omitempty"`
 }
 
 func rollTheDiceInit() {
@@ -64,17 +62,24 @@ func rollHandler(messageContent string) (response string, discordEmbed discordgo
 		return
 	}
 
-	if strings.TrimPrefix(messageContent, chn.Prefix+"roll ") == "wandering dmg" {
+	switch strings.TrimPrefix(messageContent, chn.Prefix+"roll ") {
+	case "wandering dmg":
+		log.Printf("rolling wandering damage")
 		response, discordEmbed, sendToDM = rollWanderingDamage()
-		return
-	}
-
-	if strings.TrimPrefix(messageContent, chn.Prefix+"roll ") == "stats" {
+	case "wandering loot":
+		log.Printf("rolling wandering loot")
+		response, discordEmbed, sendToDM = rollWanderingLoot()
+	case "wandering lute":
+		log.Printf("rolling wandering lute")
+		response, discordEmbed, sendToDM = rollWanderingLute()
+	case "stats":
+		log.Printf("stats")
 		response, sendToDM = rollStats("")
-		return
+	default:
+		log.Printf("rolling the dice")
+		response, sendToDM = rollTheDice(strings.TrimPrefix(messageContent, chn.Prefix+"roll "))
 	}
 
-	response, sendToDM = rollTheDice(strings.TrimPrefix(messageContent, chn.Prefix+"roll "))
 	return
 }
 
@@ -207,7 +212,11 @@ func rollDie(addSub string, dieValue, rollCount, proficiency int) (response stri
 		}
 	}
 
-	response = fmt.Sprintf("I have rolled %s %sfor a total of %d \n", prettyRolls, profString, rollTotal)
+	if rollCount == 1 {
+		response = fmt.Sprintf("You have rolled a %s \n", prettyRolls)
+	} else {
+		response = fmt.Sprintf("You have rolled %s %sfor a total of %d \n", prettyRolls, profString, rollTotal)
+	}
 
 	return
 }

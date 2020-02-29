@@ -1,5 +1,6 @@
 {
-    "wandering_damage":{
+    "data":[{
+        "type":"wandering_damage",
         "roll":{
             "dice": 1,
             "value": 20
@@ -107,8 +108,8 @@
                 "random": true
             }
         ]
-    },
-    "limb_loss":{
+    },{
+        "type":"limb_loss",
         "roll":{
             "dice": 1,
             "value": 6
@@ -151,8 +152,8 @@
                 "result":"your character has cut their torso in half."
             }
         ]
-    },
-    "random_damage":{
+    },{
+        "type":"random_damage",
         "roll":{
             "dice": 1,
             "value": 100
@@ -192,7 +193,7 @@
                         "max": 25
                     }
                 },
-                "result": "Take 10 hit points damage and I will consult the Limb Loss Subtable, adding 5 to the roll.",
+                "result": "Take 10 hit points damage and I will consult the Limb Loss Subtable, adding 5 to the roll. ",
                 "limb": true
             },
             {
@@ -205,7 +206,7 @@
                         "add": 5
                     }
                 },
-                "result": "Take 10 hit points damage. Rolling on the Wandering Damage Table again.",
+                "result": "Take 10 hit points damage. Rolling on the Wandering Damage Table again. ",
                 "wander": true
             },
             {
@@ -233,7 +234,7 @@
                         "max": 45
                     }
                 },
-                "result": "Take 17 hit points damage"
+                "result": "Take 17 hit points damage."
             },
             {
                 "outcome":{
@@ -269,7 +270,7 @@
                         "max": 65
                     }
                 },
-                "result": "Take 1,000 hit points damage. With another roll the following also happens.",
+                "result": "Take 1,000 hit points damage. With another roll the following also happens. ",
                 "random": true
             },
             {
@@ -288,7 +289,7 @@
                         "max": 73
                     }
                 },
-                "result": "Add up the total hit points of everyone in the party. Take that much damage."
+                "result": "Add up the total hit points of everyone in the party. Take that much damage. "
             },
             {
                 "outcome":{
@@ -297,7 +298,7 @@
                         "max": 75
                     }
                 },
-                "result": "Take 3 hit points damage and consider yourself very lucky - for the time being."
+                "result": "Take 3 hit points damage and consider yourself very lucky - for the time being. "
             },
             {
                 "outcome":{
@@ -306,9 +307,10 @@
                         "max": 100
                     }
                 },
-                "result": "What? You didn't get hurt? That's impossible - this system is foolproof. Roll again.",
+                "result": "What? You didn't get hurt? That's impossible - this system is foolproof. Roll again. ",
                 "random": true
             }
         ]
-    }
+        
+    }]    
 }

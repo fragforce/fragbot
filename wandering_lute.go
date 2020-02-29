@@ -8,42 +8,42 @@ import (
 )
 
 var (
-	wanderingLoot wanderingData
+	wanderingLute wanderingData
 )
 
-func initWanderingLoot() {
+func initWanderingLute() {
 	var err error
 
-	log.Printf("loading wandering loot info")
-	err = loadInfo("wandering/wandering_loot.json", &wanderingLoot)
+	log.Printf("loading wandering lute info")
+	err = loadInfo("wandering/wandering_lute.json", &wanderingLute)
 	if err != nil {
 		log.Printf("%s", err)
 		log.Fatalf("there was an issue reading the wandering file\n")
 	}
 
-	// log.Printf("%v", wanderingLoot)
+	// log.Printf("%v", wanderingLute)
 
-	log.Printf("wandering info loaded")
+	log.Printf("wandering lute info loaded")
 }
 
-func rollWanderingLoot() (response string, discordEmbed discordgo.MessageEmbed, sendToDM bool) {
+func rollWanderingLute() (response string, discordEmbed discordgo.MessageEmbed, sendToDM bool) {
 
 	var outcome int
 
-	var lootData wandering
+	var luteData wandering
 
-	for _, data := range wanderingLoot.Data {
-		if data.Type == "wandering_loot" {
-			lootData = data
+	for _, data := range wanderingLute.Data {
+		if data.Type == "wandering_lute" {
+			luteData = data
 		}
 	}
 
-	if len(lootData.Table) == 0 {
+	if len(luteData.Table) == 0 {
 		log.Print("no loot to hand out")
 		return
 	}
 
-	rolls := roll(1, len(lootData.Table))
+	rolls := roll(1, len(luteData.Table))
 
 	log.Printf("Rolls: '%d'", rolls)
 
@@ -57,16 +57,16 @@ func rollWanderingLoot() (response string, discordEmbed discordgo.MessageEmbed, 
 		return
 	}
 
-	for _, value := range lootData.Table {
+	for _, value := range luteData.Table {
 		if value.Outcome.Exact == outcome {
-			renderedResult := fmt.Sprintf("You have attained one '%s', with the following description: %s", value.Item, value.Result)
+			renderedResult := fmt.Sprintf("%s\n%s", value.Item, value.Result)
 			response = response + "\n" + renderedResult
 		}
 	}
 
 	discordEmbed = discordgo.MessageEmbed{
 		Author: &discordgo.MessageEmbedAuthor{
-			Name: "Wandering Loot Bot",
+			Name: "Wandering Lute Bot",
 		},
 		Fields: []*discordgo.MessageEmbedField{
 			&discordgo.MessageEmbedField{

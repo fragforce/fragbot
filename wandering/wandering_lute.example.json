@@ -1,196 +1,21 @@
 {
-    "wandering_lute":{
-        "roll":{
-            "dice": 1,
-            "value": 20
-        },
+    "data":[{
+        "type":"wandering_lute",
         "table":[
-            {
-                "outcome": {
-                    "exact": 0
-                },
-                "result":""
-            },
             {
                 "outcome": {
                     "exact": 1
                 },
-                "result":"Husky Wand: Just a log that can be weilded as a two handed wand"
+                "item":"*You hear banjos in the distance*",
+                "result":"https://www.youtube.com/watch?v=gsC4kf6x_Q0"
             },
             {
                 "outcome": {
                     "exact": 2
                 },
-                "result":"Tome of infinite Tomes: Buyer beware, this tome is just a blank book"
-            },
-            {
-                "outcome": {
-                    "exact": 3
-                },
-                "result":"Ring of Wrapping: Makes the wearer an expert in all things related to wrapping."
-            },
-            {
-                "outcome": {
-                    "exact": 4
-                },
-                "result":"Trickshot Bow: The equipable hair bow enables the user to make shots no other could make at a distance of 10 ft."
-            },
-            {
-                "outcome": {
-                    "exact": 5
-                },
-                "result":"Potion of Site: A beautifully crafted miniature scene of a location, not to be confused with 'sight'"
-            },
-            {
-                "outcome": {
-                    "exact": 6
-                },
-                "result":"Handlers Pen: A magical Mystical Object of Splendor and mystery, The sounds... wait sounds? This is a Pen? No it's a Pen not a Pen Pen... You know it keeps animals out, What do you think Handler's use pens for?"
-            },
-            {
-                "outcome": {
-                    "exact": 7
-                },
-                "result":"Scroll of Weekness: A scroll that has some oddly scribbled spells on it. Sunday, Monday, Tuesday, Wednesday, Thursday, Friday, Saturday"
-            },
-            {
-                "outcome": {
-                    "exact": 8
-                },
-                "result":"Horn of Horn: When activated it summons four two legged horns that ram enemies at a rate of 1d6-5x4. Cannot discern living from inanimate."
-            },
-            {
-                "outcome": {
-                    "exact": 9
-                },
-                "result":"Potion of Fazing: Wizards from all around want this Potion! Bandits would steal for this Potion! If only it was the Potion of 'Phasing' and not so disturbing "
-            },
-            {
-                "outcome": {
-                    "exact": 10
-                },
-                "result":"Wand of levitation: Instructions are attached 'Step 1: find water... Step 2:... '"
-            },
-            {
-                "outcome": {
-                    "exact": 11
-                },
-                "result":"Poachers Bow: Why you would use a bow to make poached eggs, no-one knows, but it makes damn fine poached eggs. +5 to cooking checks on poached eggs."
-            },
-            {
-                "outcome": {
-                    "exact": 12
-                },
-                "result":"Elixir of Resounding Invisibility: Renders the imbiber invisible while they are yelling. Lasts 1 minute/5 minutes/10 minutes/1 day/1 week/forever (1d6 to determine quality)."
-            },
-            {
-                "outcome": {
-                    "exact": 13
-                },
-                "result":"Cloak of Inn Visability: While wearing the cloak, all inns, taverns, bars, pubs, and saloons give off a glow that is visable from a mile away and can be seen through anything"
-            },
-            {
-                "outcome": {
-                    "exact": 14
-                },
-                "result":"Boots of Pace: When worn by anyone these boots auto magically make the wearer (and any other creatures in a 69,420 mile radius) increase their speed by 30 feet"
-            },
-            {
-                "outcome": {
-                    "exact": 15
-                },
-                "result":"Ring of Warmth: The ring is warm to the touch and that's it."
-            },
-            {
-                "outcome": {
-                    "exact": 16
-                },
-                "result":"Deck of One Thing: It's a functioning Deck of Many Things except every card is The Idiot."
-            },
-            {
-                "outcome": {
-                    "exact": 17
-                },
-                "result":"Rogue Armor: A set of animated armor that likes to move only when being worn"
-            },
-            {
-                "outcome": {
-                    "exact": 18
-                },
-                "result":"Bagpipes of invisibility: As long as these bagpipes are being played, the player is completely invisible. Cannot be muffled/silenced. +10 to stealth checks, all hostile and friendly entities in a 30 ft radius gain +10 to perception checks."
-            },
-            {
-                "outcome": {
-                    "exact": 19
-                },
-                "result":"Infinite Rope: A 5 foot loop of rope."
-            },
-            {
-                "outcome": {
-                    "exact": 20
-                },
-                "result":"The All-or-Nothing Coin: A coin that, while in your possession is worth 1gp. But when out of your possession is worth nothing."
-            },
-            {
-                "outcome": {
-                    "exact": 21
-                },
-                "result":"Sword in stone : The Fabled holy weapon!!! It's here! You truly are embued with a sense of awe! You reach for the sacred weapon... only to find that it's just a sword, made of Stone 'Sword in Stone'...  Roll 20 for perception check -19 modifier"
-            },
-            {
-                "outcome": {
-                    "exact": 22
-                },
-                "result":"Pocket Ladder: a tiny ladder that fits in a pocket. Extends to 20 feet in length, but is only an inch and a half wide with teensy little rungs."
-            },
-            {
-                "outcome": {
-                    "exact": 23
-                },
-                "result":"The Two O'Clock Bracers: Bracers cast sleep at 1st level on the wearer at 2:00PM every day."
-            },
-            {
-                "outcome": {
-                    "exact": 24
-                },
-                "result":"A Bear Whistle: It summons angry bears. Who are on no ones side."
-            },
-            {
-                "outcome": {
-                    "exact": 25
-                },
-                "result":"Hat of Many Hats: Polymorphs itself into a different style of hat every morning. Wizard, top hat, Stetson, etc. TODO: add generator for this."
-            },
-            {
-                "outcome": {
-                    "exact": 26
-                },
-                "result":"Aligned Mundane Object: TODO: add generator for this."
-            },
-            {
-                "outcome": {
-                    "exact": 27
-                },
-                "result":"Complimentary Crossbow: Compliments the enemy which you strike. I.E. 'What beautiful fangs you have'"
-            },
-            {
-                "outcome": {
-                    "exact": 28
-                },
-                "result":"Bolt of Jealousy : Is extremely jealous of the complimentary crossbow, everything nice always breaks when it strikes its target, only compatible with Complimentary crossbow"
-            },
-            {
-                "outcome": {
-                    "exact": 29
-                },
-                "result":"Singing sword: It's a sword that sings, only when swung however.. and it's horribly out of tune the slower you swing, this includes when holstered and swinging back and forth as you move."
-            },
-            {
-                "outcome": {
-                    "exact": 30
-                },
-                "result":"Aligned Mundane Object: TODO: add generator for this."
+                "item":"*Polka Power*",
+                "result":"https://www.youtube.com/watch?v=MRJILK3NxSM"
             }
         ]
-    }
+    }]    
 }

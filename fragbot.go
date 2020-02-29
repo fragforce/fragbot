@@ -78,6 +78,16 @@ func init() {
 		log.Printf("initialized wandering dmg")
 	}
 
+	if chn.RTD.Wandering.Loot.Enabled {
+		initWanderingLoot()
+		log.Printf("initialized wandering loot")
+	}
+
+	if chn.RTD.Wandering.Lute.Enabled {
+		initWanderingLute()
+		log.Printf("initialized wandering lute")
+	}
+
 	log.Printf("all configs loaded")
 }
 
