@@ -248,7 +248,7 @@ func handleDiscordMessages(s *discordgo.Session, message *discordgo.MessageCreat
 }
 
 func readyDiscord(s *discordgo.Session, event *discordgo.Ready) {
-	err := s.UpdateStatus(0, bot.Game)
+	err := s.UpdateGameStatus(0, bot.Game)
 	if err != nil {
 		log.Printf("error setting game: %s", err)
 		return
